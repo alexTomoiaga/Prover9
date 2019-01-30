@@ -1,0 +1,381 @@
+============================== Prover9 ===============================
+Prover9 (64) version 2009-11A, November 2009.
+Process 14735 was started by alex on Linux,
+Mon Dec 10 14:16:56 2018
+The command was "prover9 -f test.in".
+============================== end of head ===========================
+
+============================== INPUT =================================
+
+% Reading from file test.in
+
+
+formulas(assumptions).
+monk(Benedict).
+monk(Joseph).
+monk(Honore).
+monk(Jean).
+monk(Benoit).
+monk(Bernard).
+monk(Stanislaus).
+abbot(Abbot).
+worker(Worker).
+strangled(Jean).
+poisoned(Benoit).
+poisoned(Bernard).
+poisoned(Stanislaus).
+noteTwo.
+noteOne.
+hasBooks(Honore).
+alibi(Benedict).
+-alibi(Honore).
+-alibi(Joseph).
+-alibi(Abbot).
+-alibi(Worker).
+quotes(Honore).
+presume(Joseph,Honore).
+presume(Abbot,Worker).
+presume(Worker,Honore).
+presume(Worker,Benedict).
+presume(Worker,Joseph).
+monk(x) -> -abbot(x) & -worker(x).
+abbot(x) -> -worker(x).
+quotes(x) & hasBooks(x) -> reads(x).
+noteOne & noteTwo -> killer(Jean) & suspect(Honore).
+alibi(x) & (exists y presume(y,x)) -> -suspect(x).
+-alibi(x) & (exists y presume(y,x)) -> suspect(x).
+suspect(x) & reads(x) -> killer(x).
+poisoned(x) -> dead(x).
+strangled(x) -> dead(x).
+-dead(Honore).
+-dead(Joseph).
+-dead(Benedict).
+-dead(Abbot).
+-dead(Worker).
+killer(x) & -dead(x) -> prison(x).
+end_of_list.
+
+formulas(goals).
+prison(Honore) & killer(Jean).
+end_of_list.
+
+============================== end of input ==========================
+
+============================== PROCESS NON-CLAUSAL FORMULAS ==========
+
+% Formulas that are not ordinary clauses:
+1 monk(x) -> -abbot(x) & -worker(x) # label(non_clause).  [assumption].
+2 abbot(x) -> -worker(x) # label(non_clause).  [assumption].
+3 quotes(x) & hasBooks(x) -> reads(x) # label(non_clause).  [assumption].
+4 noteOne & noteTwo -> killer(Jean) & suspect(Honore) # label(non_clause).  [assumption].
+5 alibi(x) & (exists y presume(y,x)) -> -suspect(x) # label(non_clause).  [assumption].
+6 -alibi(x) & (exists y presume(y,x)) -> suspect(x) # label(non_clause).  [assumption].
+7 suspect(x) & reads(x) -> killer(x) # label(non_clause).  [assumption].
+8 poisoned(x) -> dead(x) # label(non_clause).  [assumption].
+9 strangled(x) -> dead(x) # label(non_clause).  [assumption].
+10 killer(x) & -dead(x) -> prison(x) # label(non_clause).  [assumption].
+11 prison(Honore) & killer(Jean) # label(non_clause) # label(goal).  [goal].
+
+============================== end of process non-clausal formulas ===
+
+============================== PROCESS INITIAL CLAUSES ===============
+
+% Clauses before input processing:
+
+formulas(usable).
+end_of_list.
+
+formulas(sos).
+monk(Benedict).  [assumption].
+monk(Joseph).  [assumption].
+monk(Honore).  [assumption].
+monk(Jean).  [assumption].
+monk(Benoit).  [assumption].
+monk(Bernard).  [assumption].
+monk(Stanislaus).  [assumption].
+abbot(Abbot).  [assumption].
+worker(Worker).  [assumption].
+strangled(Jean).  [assumption].
+poisoned(Benoit).  [assumption].
+poisoned(Bernard).  [assumption].
+poisoned(Stanislaus).  [assumption].
+noteTwo.  [assumption].
+noteOne.  [assumption].
+hasBooks(Honore).  [assumption].
+alibi(Benedict).  [assumption].
+-alibi(Honore).  [assumption].
+-alibi(Joseph).  [assumption].
+-alibi(Abbot).  [assumption].
+-alibi(Worker).  [assumption].
+quotes(Honore).  [assumption].
+presume(Joseph,Honore).  [assumption].
+presume(Abbot,Worker).  [assumption].
+presume(Worker,Honore).  [assumption].
+presume(Worker,Benedict).  [assumption].
+presume(Worker,Joseph).  [assumption].
+-monk(x) | -abbot(x).  [clausify(1)].
+-monk(x) | -worker(x).  [clausify(1)].
+-abbot(x) | -worker(x).  [clausify(2)].
+-quotes(x) | -hasBooks(x) | reads(x).  [clausify(3)].
+-noteOne | -noteTwo | killer(Jean).  [clausify(4)].
+-noteOne | -noteTwo | suspect(Honore).  [clausify(4)].
+-alibi(x) | -presume(y,x) | -suspect(x).  [clausify(5)].
+alibi(x) | -presume(y,x) | suspect(x).  [clausify(6)].
+-suspect(x) | -reads(x) | killer(x).  [clausify(7)].
+-poisoned(x) | dead(x).  [clausify(8)].
+-strangled(x) | dead(x).  [clausify(9)].
+-dead(Honore).  [assumption].
+-dead(Joseph).  [assumption].
+-dead(Benedict).  [assumption].
+-dead(Abbot).  [assumption].
+-dead(Worker).  [assumption].
+-killer(x) | dead(x) | prison(x).  [clausify(10)].
+-prison(Honore) | -killer(Jean).  [deny(11)].
+end_of_list.
+
+formulas(demodulators).
+end_of_list.
+
+============================== PREDICATE ELIMINATION =================
+
+Eliminating monk/1
+12 -monk(x) | -abbot(x).  [clausify(1)].
+13 monk(Benedict).  [assumption].
+14 monk(Joseph).  [assumption].
+15 monk(Honore).  [assumption].
+16 monk(Jean).  [assumption].
+17 monk(Benoit).  [assumption].
+18 monk(Bernard).  [assumption].
+19 monk(Stanislaus).  [assumption].
+Derived: -abbot(Benedict).  [resolve(12,a,13,a)].
+Derived: -abbot(Joseph).  [resolve(12,a,14,a)].
+Derived: -abbot(Honore).  [resolve(12,a,15,a)].
+Derived: -abbot(Jean).  [resolve(12,a,16,a)].
+Derived: -abbot(Benoit).  [resolve(12,a,17,a)].
+Derived: -abbot(Bernard).  [resolve(12,a,18,a)].
+Derived: -abbot(Stanislaus).  [resolve(12,a,19,a)].
+20 -monk(x) | -worker(x).  [clausify(1)].
+Derived: -worker(Benedict).  [resolve(20,a,13,a)].
+Derived: -worker(Joseph).  [resolve(20,a,14,a)].
+Derived: -worker(Honore).  [resolve(20,a,15,a)].
+Derived: -worker(Jean).  [resolve(20,a,16,a)].
+Derived: -worker(Benoit).  [resolve(20,a,17,a)].
+Derived: -worker(Bernard).  [resolve(20,a,18,a)].
+Derived: -worker(Stanislaus).  [resolve(20,a,19,a)].
+
+Eliminating abbot/1
+21 -abbot(x) | -worker(x).  [clausify(2)].
+22 abbot(Abbot).  [assumption].
+Derived: -worker(Abbot).  [resolve(21,a,22,a)].
+23 -abbot(Benedict).  [resolve(12,a,13,a)].
+24 -abbot(Joseph).  [resolve(12,a,14,a)].
+25 -abbot(Honore).  [resolve(12,a,15,a)].
+26 -abbot(Jean).  [resolve(12,a,16,a)].
+27 -abbot(Benoit).  [resolve(12,a,17,a)].
+28 -abbot(Bernard).  [resolve(12,a,18,a)].
+29 -abbot(Stanislaus).  [resolve(12,a,19,a)].
+
+Eliminating worker/1
+30 -worker(Benedict).  [resolve(20,a,13,a)].
+31 worker(Worker).  [assumption].
+32 -worker(Joseph).  [resolve(20,a,14,a)].
+33 -worker(Honore).  [resolve(20,a,15,a)].
+34 -worker(Jean).  [resolve(20,a,16,a)].
+35 -worker(Benoit).  [resolve(20,a,17,a)].
+36 -worker(Bernard).  [resolve(20,a,18,a)].
+37 -worker(Stanislaus).  [resolve(20,a,19,a)].
+38 -worker(Abbot).  [resolve(21,a,22,a)].
+
+Eliminating strangled/1
+39 -strangled(x) | dead(x).  [clausify(9)].
+40 strangled(Jean).  [assumption].
+Derived: dead(Jean).  [resolve(39,a,40,a)].
+
+Eliminating poisoned/1
+41 -poisoned(x) | dead(x).  [clausify(8)].
+42 poisoned(Benoit).  [assumption].
+43 poisoned(Bernard).  [assumption].
+44 poisoned(Stanislaus).  [assumption].
+Derived: dead(Benoit).  [resolve(41,a,42,a)].
+Derived: dead(Bernard).  [resolve(41,a,43,a)].
+Derived: dead(Stanislaus).  [resolve(41,a,44,a)].
+
+Eliminating hasBooks/1
+45 -quotes(x) | -hasBooks(x) | reads(x).  [clausify(3)].
+46 hasBooks(Honore).  [assumption].
+Derived: -quotes(Honore) | reads(Honore).  [resolve(45,b,46,a)].
+
+Eliminating alibi/1
+47 -alibi(Honore).  [assumption].
+48 alibi(Benedict).  [assumption].
+49 -alibi(Joseph).  [assumption].
+50 -alibi(Abbot).  [assumption].
+51 -alibi(Worker).  [assumption].
+52 -alibi(x) | -presume(y,x) | -suspect(x).  [clausify(5)].
+Derived: -presume(x,Benedict) | -suspect(Benedict).  [resolve(52,a,48,a)].
+53 alibi(x) | -presume(y,x) | suspect(x).  [clausify(6)].
+Derived: -presume(x,Honore) | suspect(Honore).  [resolve(53,a,47,a)].
+Derived: -presume(x,Joseph) | suspect(Joseph).  [resolve(53,a,49,a)].
+Derived: -presume(x,Abbot) | suspect(Abbot).  [resolve(53,a,50,a)].
+Derived: -presume(x,Worker) | suspect(Worker).  [resolve(53,a,51,a)].
+
+Eliminating quotes/1
+54 -quotes(Honore) | reads(Honore).  [resolve(45,b,46,a)].
+55 quotes(Honore).  [assumption].
+Derived: reads(Honore).  [resolve(54,a,55,a)].
+
+Eliminating presume/2
+56 -presume(x,Benedict) | -suspect(Benedict).  [resolve(52,a,48,a)].
+57 presume(Joseph,Honore).  [assumption].
+58 presume(Abbot,Worker).  [assumption].
+59 presume(Worker,Honore).  [assumption].
+60 presume(Worker,Benedict).  [assumption].
+61 presume(Worker,Joseph).  [assumption].
+Derived: -suspect(Benedict).  [resolve(56,a,60,a)].
+62 -presume(x,Honore) | suspect(Honore).  [resolve(53,a,47,a)].
+Derived: suspect(Honore).  [resolve(62,a,57,a)].
+63 -presume(x,Joseph) | suspect(Joseph).  [resolve(53,a,49,a)].
+Derived: suspect(Joseph).  [resolve(63,a,61,a)].
+64 -presume(x,Abbot) | suspect(Abbot).  [resolve(53,a,50,a)].
+65 -presume(x,Worker) | suspect(Worker).  [resolve(53,a,51,a)].
+Derived: suspect(Worker).  [resolve(65,a,58,a)].
+
+Eliminating killer/1
+66 -killer(x) | dead(x) | prison(x).  [clausify(10)].
+67 -noteOne | -noteTwo | killer(Jean).  [clausify(4)].
+68 -suspect(x) | -reads(x) | killer(x).  [clausify(7)].
+Derived: dead(x) | prison(x) | -suspect(x) | -reads(x).  [resolve(66,a,68,c)].
+69 -prison(Honore) | -killer(Jean).  [deny(11)].
+Derived: -prison(Honore) | -noteOne | -noteTwo.  [resolve(69,b,67,c)].
+Derived: -prison(Honore) | -suspect(Jean) | -reads(Jean).  [resolve(69,b,68,c)].
+
+Eliminating suspect/1
+70 -suspect(Benedict).  [resolve(56,a,60,a)].
+71 -noteOne | -noteTwo | suspect(Honore).  [clausify(4)].
+72 suspect(Honore).  [resolve(62,a,57,a)].
+73 suspect(Joseph).  [resolve(63,a,61,a)].
+74 suspect(Worker).  [resolve(65,a,58,a)].
+75 dead(x) | prison(x) | -suspect(x) | -reads(x).  [resolve(66,a,68,c)].
+Derived: dead(Honore) | prison(Honore) | -reads(Honore) | -noteOne | -noteTwo.  [resolve(75,c,71,c)].
+Derived: dead(Honore) | prison(Honore) | -reads(Honore).  [resolve(75,c,72,a)].
+Derived: dead(Joseph) | prison(Joseph) | -reads(Joseph).  [resolve(75,c,73,a)].
+Derived: dead(Worker) | prison(Worker) | -reads(Worker).  [resolve(75,c,74,a)].
+76 -prison(Honore) | -suspect(Jean) | -reads(Jean).  [resolve(69,b,68,c)].
+
+Eliminating dead/1
+77 dead(Jean).  [resolve(39,a,40,a)].
+78 -dead(Honore).  [assumption].
+79 -dead(Joseph).  [assumption].
+80 -dead(Benedict).  [assumption].
+81 -dead(Abbot).  [assumption].
+82 -dead(Worker).  [assumption].
+83 dead(Benoit).  [resolve(41,a,42,a)].
+84 dead(Bernard).  [resolve(41,a,43,a)].
+85 dead(Stanislaus).  [resolve(41,a,44,a)].
+86 dead(Honore) | prison(Honore) | -reads(Honore) | -noteOne | -noteTwo.  [resolve(75,c,71,c)].
+Derived: prison(Honore) | -reads(Honore) | -noteOne | -noteTwo.  [resolve(86,a,78,a)].
+87 dead(Honore) | prison(Honore) | -reads(Honore).  [resolve(75,c,72,a)].
+Derived: prison(Honore) | -reads(Honore).  [resolve(87,a,78,a)].
+88 dead(Joseph) | prison(Joseph) | -reads(Joseph).  [resolve(75,c,73,a)].
+Derived: prison(Joseph) | -reads(Joseph).  [resolve(88,a,79,a)].
+89 dead(Worker) | prison(Worker) | -reads(Worker).  [resolve(75,c,74,a)].
+Derived: prison(Worker) | -reads(Worker).  [resolve(89,a,82,a)].
+
+Eliminating reads/1
+90 prison(Honore) | -reads(Honore) | -noteOne | -noteTwo.  [resolve(86,a,78,a)].
+91 reads(Honore).  [resolve(54,a,55,a)].
+Derived: prison(Honore) | -noteOne | -noteTwo.  [resolve(90,b,91,a)].
+92 prison(Honore) | -reads(Honore).  [resolve(87,a,78,a)].
+Derived: prison(Honore).  [resolve(92,b,91,a)].
+93 prison(Joseph) | -reads(Joseph).  [resolve(88,a,79,a)].
+94 prison(Worker) | -reads(Worker).  [resolve(89,a,82,a)].
+
+Eliminating prison/1
+95 prison(Honore) | -noteOne | -noteTwo.  [resolve(90,b,91,a)].
+96 -prison(Honore) | -noteOne | -noteTwo.  [resolve(69,b,67,c)].
+Derived: -noteOne | -noteTwo | -noteOne | -noteTwo.  [resolve(95,a,96,a)].
+97 prison(Honore).  [resolve(92,b,91,a)].
+
+============================== end predicate elimination =============
+
+Auto_denials:  (no changes).
+
+Term ordering decisions:
+Predicate symbol precedence:  predicate_order([ noteOne, noteTwo ]).
+Function symbol precedence:  function_order([ ]).
+After inverse_order:  (no changes).
+Unfolding symbols: (none).
+
+Auto_inference settings:
+  % set(neg_binary_resolution).  % (HNE depth_diff=0)
+  % clear(ordered_res).  % (HNE depth_diff=0)
+  % set(ur_resolution).  % (HNE depth_diff=0)
+    % set(ur_resolution) -> set(pos_ur_resolution).
+    % set(ur_resolution) -> set(neg_ur_resolution).
+
+Auto_process settings:
+  % set(unit_deletion).  % (Horn set with negative nonunits)
+
+kept:      98 noteTwo.  [assumption].
+kept:      99 noteOne.  [assumption].
+           100 -noteOne | -noteTwo | -noteOne | -noteTwo.  [resolve(95,a,96,a)].
+
+============================== PROOF =================================
+
+% Proof 1 at 0.00 (+ 0.00) seconds.
+% Length of proof is 25.
+% Level of proof is 7.
+% Maximum clause weight is 1.000.
+% Given clauses 0.
+
+3 quotes(x) & hasBooks(x) -> reads(x) # label(non_clause).  [assumption].
+4 noteOne & noteTwo -> killer(Jean) & suspect(Honore) # label(non_clause).  [assumption].
+7 suspect(x) & reads(x) -> killer(x) # label(non_clause).  [assumption].
+10 killer(x) & -dead(x) -> prison(x) # label(non_clause).  [assumption].
+11 prison(Honore) & killer(Jean) # label(non_clause) # label(goal).  [goal].
+45 -quotes(x) | -hasBooks(x) | reads(x).  [clausify(3)].
+46 hasBooks(Honore).  [assumption].
+54 -quotes(Honore) | reads(Honore).  [resolve(45,b,46,a)].
+55 quotes(Honore).  [assumption].
+66 -killer(x) | dead(x) | prison(x).  [clausify(10)].
+67 -noteOne | -noteTwo | killer(Jean).  [clausify(4)].
+68 -suspect(x) | -reads(x) | killer(x).  [clausify(7)].
+69 -prison(Honore) | -killer(Jean).  [deny(11)].
+71 -noteOne | -noteTwo | suspect(Honore).  [clausify(4)].
+75 dead(x) | prison(x) | -suspect(x) | -reads(x).  [resolve(66,a,68,c)].
+78 -dead(Honore).  [assumption].
+86 dead(Honore) | prison(Honore) | -reads(Honore) | -noteOne | -noteTwo.  [resolve(75,c,71,c)].
+90 prison(Honore) | -reads(Honore) | -noteOne | -noteTwo.  [resolve(86,a,78,a)].
+91 reads(Honore).  [resolve(54,a,55,a)].
+95 prison(Honore) | -noteOne | -noteTwo.  [resolve(90,b,91,a)].
+96 -prison(Honore) | -noteOne | -noteTwo.  [resolve(69,b,67,c)].
+98 noteTwo.  [assumption].
+99 noteOne.  [assumption].
+100 -noteOne | -noteTwo | -noteOne | -noteTwo.  [resolve(95,a,96,a)].
+101 $F.  [copy(100),merge(c),merge(d),unit_del(a,99),unit_del(b,98)].
+
+============================== end of proof ==========================
+
+============================== STATISTICS ============================
+
+Given=0. Generated=3. Kept=2. proofs=1.
+Usable=0. Sos=0. Demods=0. Limbo=2, Disabled=89. Hints=0.
+Kept_by_rule=0, Deleted_by_rule=0.
+Forward_subsumed=0. Back_subsumed=0.
+Sos_limit_deleted=0. Sos_displaced=0. Sos_removed=0.
+New_demodulators=0 (0 lex), Back_demodulated=0. Back_unit_deleted=0.
+Demod_attempts=0. Demod_rewrites=0.
+Res_instance_prunes=0. Para_instance_prunes=0. Basic_paramod_prunes=0.
+Nonunit_fsub_feature_tests=0. Nonunit_bsub_feature_tests=0.
+Megabytes=0.07.
+User_CPU=0.00, System_CPU=0.00, Wall_clock=0.
+
+============================== end of statistics =====================
+
+============================== end of search =========================
+
+THEOREM PROVED
+
+Exiting with 1 proof.
+
+Process 14735 exit (max_proofs) Mon Dec 10 14:16:56 2018

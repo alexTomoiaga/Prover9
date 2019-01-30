@@ -1,0 +1,181 @@
+%Tomoiaga Alexandru - 30237
+
+%http://assassinscreed.wikia.com/wiki/Murder_Foretold - link for Fandom.
+
+
+%1.Body - A dead monk, Friar Jean, strangled with a strand of rosary beads. He appears to have fallen from his chair while writing at his desk. 
+
+%            => Friar Jean was strangled.
+
+%2.Body of Friar Benoit - An older monk lying dead in his bed. His features are sallow and his face is ashen gray. 
+
+%            => Friar Benoit was poisoned.
+            
+%3.Body of Friar Bernard - An older monk lying dead in his bed. His features are sallow and his face is ashen gray. 
+
+%            => Friar Bernard was poisoned.
+
+%4.Body of Friar Stanislaus - An older monk lying dead in his bed. His features are sallow and his face is ashen gray. 
+
+%            => Friar Stanislaus was poisoned.
+
+%5.Crumpled paper - Clenched in the monk's dead fist is a crumpled bit of paper, apparently torn from a diary. It reads: "--guilty! I have poisoned them. He claimed it was God's will that I do so because of the prediction, but I cannot escape my guilt. I am a murderer! I must confess everything right this minute, before --" The note is unfinished.
+
+%            => this is the second note.
+
+%6.Partially burnt diary - " -- poisoned the cask of wine, but I served it! If he knew that I am about to confess, he would not hesitate to murder me himself! Oh, curse the day the predictions of Nostradamus ever came into Honoré's possession. He is quite mad! And he has driven me to madness! But I am --" 
+
+%            => this is the first note.
+
+%7.Property of: Friar Honore - Personal effects. Of note is an enormous book filled with intriguing quatrains: The Prophecies by Nostradamus. 
+
+%            => Friar Honore has a lot of books.
+
+%8.     Property of: Friar Jean - Personal effects. Also, at the bottom of the chest: a single page, torn from a book. 
+        %"The seven branches will be reduced to three, 
+        %The elder ones surprised by death, 
+        %The two seduced to fratricide, 
+        %The conspirators will die as they sleep. 
+        %--Nostradamus" 
+        
+%            => not helpful.        
+        
+%9.Statement of Friar Benedict - Friar Benedict: Noted that the three monks dead in their beds were the elders of the order. They became ill after Friar Jean served them wine and went to sleep. When they could not be woken, Benedict went for a doctor. Upon his return, he found Friar Jean strangled at his desk. 
+
+%            => Friar Benedict has an alibi.
+
+%10.Statement of Friar Honoré - Friar Honoré: Believes Nostradamus is a prophet. 
+
+%            => Friar Honore quotes Nostradamus.
+
+%11.Statement of Friar Joseph - Friar Joseph: Claims Friar Honoré and Friar Jean were friends. Expresses concern that the murders have affected Honoré's sanity. 
+
+%            => Friar Joseph suspects Friar Honore.
+
+%12.Statement of the Abbot - Abbot: Noted that Friars Benoit, Stanislas, Bernard and Jean were now dead. Three other remain alive. Refused to believe one of those could have killed the others. 
+
+%            => Abbot suspect the Worker.
+
+%13.Statement of the Vineyard Worker - Vineyard Worker: Saw a monk starting a fire in the vineyard. Yelled at him and he ran off. Unable to identify monk. 
+
+%            => Worker suspects one of the Friars.
+
+
+    %Constants:
+%Notes: noteOne, noteTwo. 
+%Monks: Benedict, Joseph, Honore, Jean, Benoit, Bernard, Stanislaus.
+%Worker: Worker.
+%Abbot: Abbot.
+ 
+ 
+    %Predicates:
+%killer(x) : x is the killer.
+%prison(x) : x is sent to prison.
+%monk(x) : x is a monk.
+%presume(x, y) : x presume y is the murderer.
+%reads(x) : x reads Nostradamus.
+%suspect(x) : x is a suspect.
+%dead(x) : x is dead.
+%poisoned(x) : x was poisoned.
+%strangled(x) : x was strangled.
+%quote(x) : x quotes from Nostradamus.
+%abbot(x) : x is an abbot.
+%worker(x) : x is a worker.
+%hasBooks(x) : x has lots of books.
+%alibi(x) : x is not suspect.
+
+
+
+
+formulas(assumptions).
+
+monk(Benedict).
+monk(Joseph).
+monk(Honore).
+monk(Jean).
+monk(Benoit).
+monk(Bernard).
+monk(Stanislaus).
+abbot(Abbot).
+worker(Worker).
+
+strangled(Jean). %1
+poisoned(Benoit). %2
+poisoned(Bernard). %3
+poisoned(Stanislaus). %4
+
+noteTwo. %5
+noteOne. %6
+
+hasBooks(Honore). %7
+
+alibi(Benedict). %9
+-alibi(Honore).
+-alibi(Joseph).
+-alibi(Abbot).
+-alibi(Worker).
+
+quotes(Honore). %10
+
+
+presume(Joseph,Honore). %11
+
+presume(Abbot, Worker). %12
+
+presume(Worker, Honore). %13
+presume(Worker, Benedict).
+presume(Worker, Joseph).
+
+monk(x) -> -abbot(x) & -worker(x). % if Fraier then not Worker or Abbot.
+abbot(x) -> -worker(x). % if Abbot then not Worker.
+
+quotes(x) & hasBooks(x) -> reads(x). %if quotes Nostradamus and has books then he reads Nostradamus.
+
+noteOne & noteTwo -> killer(Jean) & suspect(Honore). %Friar Jean confesses and point Friar Honore.
+
+alibi(x) & exists y (presume(y, x)) -> -suspect(x). %if has alibi and he is presume of being killer, he is not suspect.
+-alibi(x) & exists y (presume(y, x)) -> suspect(x). %if has not alibi and he is presume of being killer, he is suspect.
+
+suspect(x) & reads(x) -> killer(x). %if he is suspect and reads Nostradamus he is killer.
+
+poisoned(x) -> dead(x). %if poisoned then dead.
+strangled(x) -> dead(x). %if strangled then dead.
+
+-dead(Honore).
+-dead(Joseph).
+-dead(Benedict).
+-dead(Abbot).
+-dead(Worker).
+
+killer(x) & -dead(x) -> prison(x). %if killer and dead he can't go to prison.
+
+end_of_list.
+
+
+formulas(goals).
+
+prison(Honore) & killer(Jean).
+
+
+%prison(Honore).
+%prison(Jean).
+%prison(Benedict).
+%prison(Sanislaus).
+%prison(Joseph).
+%prison(Bernard).
+%prison(Benoit).
+%prison(Worker).
+%prison(Abbot).
+
+%killer(Honore).
+%killer(Jean).
+%killer(Benedict).
+%killer(Sanislaus).
+%killer(Joseph).
+%killer(Bernard).
+%killer(Benoit).
+%killer(Worker).
+%killer(Abbot).
+
+
+end_of_list.
